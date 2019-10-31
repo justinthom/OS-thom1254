@@ -11,10 +11,8 @@ const char BLACK = 0;
 const char WHITE = 1;
 
 
-char[] MESSAGE = "checkpoint4.1";
-
-void main(){
-         
+char[] MESSAGE = "checkpoint4.1 by thom1254";
+void main(){        
 }
 void RESET(){
            *VIC_MEMORY = 0x14;
@@ -39,9 +37,6 @@ start_simple_program();
 
 
             }
-
-
-
 
 void PAGFAULT(){
            *VIC_MEMORY = 0x14;
@@ -618,6 +613,4 @@ void start_simple_program() {
 
 *(unsigned short *)$D648 = $080D;
 exit_hypervisor();
-
-
 }
