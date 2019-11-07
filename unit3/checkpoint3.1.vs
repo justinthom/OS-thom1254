@@ -5,7 +5,6 @@ al C:e .msg__2
 al C:12 .msg__3
 al C:16 .msg__4
 al C:1a .msg__5
-al C:1e .msg__6
 al C:835d .syscall19
 al C:8378 .syscall16
 al C:836f .syscall17
@@ -58,7 +57,6 @@ al C:85aa .__b1__2
 al C:8624 .__b1__3
 al C:869e .__b1__4
 al C:8718 .__b1__5
-al C:8792 .__b1__6
 al C:8 .dst
 al C:822b .syscall3B
 al C:8222 .syscall3C
@@ -72,8 +70,7 @@ al C:10 .sc__2
 al C:14 .sc__3
 al C:18 .sc__4
 al C:1c .sc__5
-al C:20 .sc__6
-al C:87cd .MESSAGE
+al C:8783 .MESSAGE
 al C:d018 .VIC_MEMORY
 al C:856b .VF011RD
 al C:d012 .RASTER
@@ -92,7 +89,6 @@ al C:85d0 .__b2__3
 al C:864a .__b2__4
 al C:86c4 .__b2__5
 al C:873e .__b2__6
-al C:87b8 .__b2__7
 al C:824f .syscall37
 al C:848e .__b3__0
 al C:84e3 .__b3__1
@@ -101,7 +97,6 @@ al C:85b2 .__b3__3
 al C:862c .__b3__4
 al C:86a6 .__b3__5
 al C:8720 .__b3__6
-al C:879a .__b3__7
 al C:826a .syscall34
 al C:84a4 .__b4__0
 al C:854e .__b4__1
@@ -109,7 +104,6 @@ al C:85c8 .__b4__2
 al C:8642 .__b4__3
 al C:86bc .__b4__4
 al C:8736 .__b4__5
-al C:87b0 .__b4__6
 al C:8261 .syscall35
 al C:83ff .syscall07
 al C:83f6 .syscall08

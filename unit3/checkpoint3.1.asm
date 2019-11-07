@@ -842,8 +842,6 @@ PAGFAULT: {
     jmp __b1
 }
 RESET: {
-    .label sc = $20
-    .label msg = $1e
     lda #$14
     sta VIC_MEMORY
     ldx #' '
@@ -866,46 +864,7 @@ RESET: {
     lda #>$28*$19
     sta.z memset.num+1
     jsr memset
-    lda #<SCREEN+$28
-    sta.z sc
-    lda #>SCREEN+$28
-    sta.z sc+1
-    lda #<MESSAGE
-    sta.z msg
-    lda #>MESSAGE
-    sta.z msg+1
-  __b1:
-    ldy #0
-    lda (msg),y
-    cmp #0
-    bne __b2
-  __b3:
-    lda #$36
-    cmp RASTER
-    beq __b4
-    lda #$42
-    cmp RASTER
-    beq __b4
-    lda #BLACK
-    sta BGCOL
-    jmp __b3
-  __b4:
-    lda #WHITE
-    sta BGCOL
-    jmp __b3
-  __b2:
-    ldy #0
-    lda (msg),y
-    sta (sc),y
-    inc.z sc
-    bne !+
-    inc.z sc+1
-  !:
-    inc.z msg
-    bne !+
-    inc.z msg+1
-  !:
-    jmp __b1
+    rts
 }
 .segment Data
   MESSAGE: .text "THOM1254"
