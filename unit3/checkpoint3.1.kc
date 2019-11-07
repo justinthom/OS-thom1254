@@ -16,7 +16,7 @@ void main(){
 }
 
 void print_to_screen(char *message){
-           *VIC_MEMORY = 0x14
+           *VIC_MEMORY = 0x14;
            char* sc = current_screen_line+current_screen_x;
            
            while(*message){
