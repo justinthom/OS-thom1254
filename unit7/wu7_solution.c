@@ -43,7 +43,14 @@ void extract_filename(int offset, char *dest)
 void wu7_examine_file_system(void)
 {
   // XXX - First, read the Master Boot Record, which is in the first sector of the disk.
-  // Within that, find the partition entry that has a FAT32 partition in it (partition type
+	sdcard_readsector(0);
+printf("The 2nd partition (if any) is %ld sectors long. \n");
+
+extract_uint32(0x0c+0xC);
+p_start=0x0c;
+p_size-0xc;
+
+  // Within that, find the partition entry that has a FAT32 partition in it (partition type)
   // will be 0x0c), and then use extract_uint32() to get the start and size of the partition
   // into p_start and p_size.
   // Complexity guide: My solution was 6 lines long.
