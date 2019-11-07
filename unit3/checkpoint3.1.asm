@@ -14,6 +14,7 @@
   .const WHITE = 1
   .const JMP = $4c
   .const NOP = $ea
+  .label current_screen_line = $1e
 .segment Code
 main: {
     rts
@@ -864,6 +865,67 @@ RESET: {
     lda #>$28*$19
     sta.z memset.num+1
     jsr memset
+    lda #<message
+    sta.z print_to_screen.message
+    lda #>message
+    sta.z print_to_screen.message+1
+    lda #<$400
+    sta.z current_screen_line
+    lda #>$400
+    sta.z current_screen_line+1
+    jsr print_to_screen
+    jsr print_newline
+    lda #<message1
+    sta.z print_to_screen.message
+    lda #>message1
+    sta.z print_to_screen.message+1
+    lda #<$400+$28
+    sta.z current_screen_line
+    lda #>$400+$28
+    sta.z current_screen_line+1
+    jsr print_to_screen
+  __b1:
+    jmp __b1
+  .segment Data
+    message: .text "THOM1254 operating system starting"
+    .byte 0
+    message1: .text "testing hardware"
+    .byte 0
+}
+.segment Code
+// print_to_screen(byte* zeropage($20) message)
+print_to_screen: {
+    .label sc = $22
+    .label message = $20
+    lda #$14
+    sta VIC_MEMORY
+    lda.z current_screen_line
+    sta.z sc
+    lda.z current_screen_line+1
+    sta.z sc+1
+    ldx #0
+  __b1:
+    ldy #0
+    lda (message),y
+    cmp #0
+    bne __b2
+    rts
+  __b2:
+    ldy #0
+    lda (message),y
+    sta (sc),y
+    inc.z sc
+    bne !+
+    inc.z sc+1
+  !:
+    inc.z message
+    bne !+
+    inc.z message+1
+  !:
+    inx
+    jmp __b1
+}
+print_newline: {
     rts
 }
 .segment Data
