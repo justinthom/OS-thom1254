@@ -929,7 +929,7 @@ print_newline: {
     rts
 }
 .segment Data
-  MESSAGE: .text "your fan"
+  MESSAGE: .text "THOM1254"
   .byte 0
 .segment Syscall
   SYSCALLS: .byte JMP
