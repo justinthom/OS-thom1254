@@ -25,26 +25,18 @@ current_screen_x++;
            }
 }
 
+void print_newline(){
+current_screen_line = current_screen_line + 40;
+current_screen_x = 0;
+}
+
+
 void RESET(){
            *VIC_MEMORY = 0x14;
            memset(SCREEN,' ',40*25);
            memset(COLS,WHITE,40*25);
-           char* sc = SCREEN+40;
-           char* msg = MESSAGE;
            
-           while(*msg){
-                      *sc++ = *msg++;
-                      }
-       
-           while(true){
-                      if(*RASTER==54 || *RASTER==66){
-                                                    *BGCOL = WHITE;
-                                                    }
-                                                else{
-                                                    *BGCOL = BLACK;
-                                                    }
-                      }
-            }
+           }
 
 
 
