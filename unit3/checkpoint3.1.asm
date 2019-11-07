@@ -887,7 +887,7 @@ RESET: {
   __b1:
     jmp __b1
   .segment Data
-    message: .text "THOM1254 operating system starting"
+    message: .text "josh0054 operating system starting"
     .byte 0
     message1: .text "testing hardware"
     .byte 0
@@ -929,7 +929,7 @@ print_newline: {
     rts
 }
 .segment Data
-  MESSAGE: .text "THOM1254"
+  MESSAGE: .text "your fan"
   .byte 0
 .segment Syscall
   SYSCALLS: .byte JMP
