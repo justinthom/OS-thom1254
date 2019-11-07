@@ -1,7 +1,5 @@
-import "string"
- 
+mport "string"
 #pragma link("mega65hyper.ld")
-
 const char* RASTER = 0xd012;
 const char* VIC_MEMORY = 0xd018;
 const char* SCREEN = 0x0400;
@@ -11,7 +9,8 @@ const char BLACK = 0;
 const char WHITE = 1;
 char[] MESSAGE = "checkpoint4.1 by thom1254";
 
-void main(){        
+void main(){
+         
 }
 
 void start_simple_program(){
@@ -39,6 +38,7 @@ void start_simple_program(){
 
 exit_hypervisor();
 }
+
 void RESET(){
            *VIC_MEMORY = 0x14;
            memset(SCREEN,' ',40*25);
@@ -49,8 +49,8 @@ void RESET(){
            while(*msg){
                       *sc++ = *msg++;
                       }
-start_simple_program();
        
+start_simple_program();
            while(true){
                       if(*RASTER==54 || *RASTER==66){
                                                     *BGCOL = WHITE;
@@ -59,9 +59,12 @@ start_simple_program();
                                                     *BGCOL = BLACK;
                                                     }
                       }
-
-
             }
+
+
+
+
+
 
 void PAGFAULT(){
            *VIC_MEMORY = 0x14;
@@ -83,6 +86,9 @@ void PAGFAULT(){
                                                     }
                       }
             }
+
+
+
 
 void RESTORKEY(){
            *VIC_MEMORY = 0x14;
@@ -611,31 +617,4 @@ export align(0x100) struct SysCall[] TRAPS = {
          {JMP,&undefined_trap,NOP},
          {JMP,&undefined_trap,NOP},
          {JMP,&undefined_trap,NOP}
-                                    };
-
-void start_simple_program() {
-
-*(unsigned char *)$0300 =$80;
-*(unsigned char *)$0301 =$00;
-*(unsigned char *)$0302 =$81;
-*(unsigned char *)$0303 =$00;
-*(unsigned char *)$0304 =$00;
-*(unsigned char *)$0305 =$00;
-*(unsigned char *)$0306 =$00;
-*(unsigned char *)$0307 =$60;
-*(unsigned char *)$0308 =$02;
-*(unsigned char *)$0309 =$00;
-*(unsigned char *)$030A =$02;
-*(unsigned char *)$030B =$01;
-*(unsigned char *)$030C =$08;
-*(unsigned char *)$030D =$00;
-*(unsigned char *)$030E =$00;
-*(unsigned char *)$030F =$00;
-*(unsigned char *)$0310 =$60;
-*(unsigned char *)$D701 =$03;
-*(unsigned char *)$D702 =$00;
-*(unsigned char *)$D705 =$00;
-
-*(unsigned short *)$D648 = $080D;
-exit_hypervisor();
-}
+                                                     };
