@@ -43,17 +43,29 @@ void extract_filename(int offset, char *dest)
 void wu7_examine_file_system(void)
 {
   // XXX - First, read the Master Boot Record, which is in the first sector of the disk.
-	sdcard_readsector(0);
-printf("The 2nd partition (if any) is %ld sectors long. \n");
-
-extract_uint32(0x0c+0xC);
-p_start=0x0c;
-p_size-0xc;
-
-  // Within that, find the partition entry that has a FAT32 partition in it (partition type)
+  // Within that, find the partition entry that has a FAT32 partition in it (partition type
   // will be 0x0c), and then use extract_uint32() to get the start and size of the partition
   // into p_start and p_size.
   // Complexity guide: My solution was 6 lines long.
+
+sdcard_readsector(0);
+  for(int i = 0x1be; i < 0x1fe; i+=0x010) {
+      if (extract_uint32(i+4) == 0x0c) { 
+          p_start = extract_uint32(i+0x8);
+          p_size = extract_uint32(i+0xc);
+          break;
+      }
+  }
+  sdcard_readsector(p_start);
+  
+  f_reserved_sectors = extract_uint16(0x0e);
+  f_sectors_per_cluster = sector_buffer[0x0d];
+  f_sectors_per_fat = sector_buffer[0x24];
+  f_rootdir_cluster = extract_uint32(0x2c);
+  
+  f_fat1_sector = p_start+f_reserved_sectors;
+  f_fat2_sector = f_fat1_sector+f_sectors_per_fat;
+  f_rootdir_sector = f_fat2_sector + f_sectors_per_fat;
 
   // Then read the first sector of the FAT32 partition, and use extract_uint32(), extract_uint16()
   // or simply reading bytes from sector_buffer[] to get the values for:
@@ -78,6 +90,9 @@ void my_opendir(void)
   // how many sectors in a cluster, and add one less than that to the starting
   // sector of the root directory.
   // Complexity guide: My solution was 3 lines long.
+  dir_sector = f_rootdir_sector;
+  dir_sector_offset = 0;
+  dir_sector_max = 512; 
 }
 
 struct my_dirent return_structure;
@@ -93,7 +108,20 @@ struct my_dirent *my_readdir(void)
   // You would abort by returning NULL if you reach the end of the directory, i.e.,
   // you go past the end of dir_sector_max.
   // Complexity guide: My solution was 11 lines long.
+
+  if (dir_sector_offset >= dir_sector_max) {
+      dir_sector++; 
+      dir_sector_offset = 0;
+  }
+  sdcard_readsector(dir_sector);
   
+  extract_filename(dir_sector_offset, return_structure.name);
+  return_structure.cluster = extract_uint16(dir_sector_offset+0x14) + extract_uint16(dir_sector_offset+0x1a);
+  return_structure.attribs = sector_buffer[0xb]; 
+  return_structure.length = extract_uint32(dir_sector_offset+0x1c);
+  
+  dir_sector_offset += 32;
+ 
   // At this point you have the directory entry located at offset dir_sector_offset in
   // sector_buffer[]. You can now use the convenience functions extract_uint32(), extract_uint16()
   // and extract_filename() that I have provided for you to extract the necessary values
